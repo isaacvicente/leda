@@ -1,7 +1,5 @@
 package produto;
 
-import produto.Produto;
-
 public interface InterfaceProduto {
 
     public abstract boolean existe(int codigo);

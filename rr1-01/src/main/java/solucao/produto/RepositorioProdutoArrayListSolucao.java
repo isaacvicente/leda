@@ -19,11 +19,11 @@ public class RepositorioProdutoArrayListSolucao implements RepositorioProdutosSo
 	 * A estrutura onde os produtos sao mantidos. Voce nao precisa se preocupar
 	 * por enquanto com o uso de generics em ArrayList.
 	 */
-	private ArrayList produtos;
+	private ArrayList<Produto> produtos;
 
 	public RepositorioProdutoArrayListSolucao(int size) {
 		super();
-		this.produtos = new ArrayList();
+		this.produtos = new ArrayList<Produto>();
 	}
 
 	/**
