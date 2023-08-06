@@ -1,23 +1,24 @@
 package produto;
 
-import java.util.ArrayList;
-
 /**
- * Classe que representa um repositório de produtos usando ArrayList como
- * estrutura sobrejacente. Alguns métodos (atualizar, remover e procurar) ou
- * executam com sucesso ou retornam um erro. Para o caso desde exercício, o erro
- * será representado por uma RuntimeException que não precisa ser declarada na
+ * Classe que representa um repositório de produtos usando arrays como estrutura
+ * sobrejacente. Alguns métodos (atualizar, remover e procurar) ou executam com
+ * sucesso ou retornam um erro. Para o caso desde exercício, o erro será
+ * representado por uma RuntimeException que não precisa ser declarada na
  * clausula "throws" do mos metodos.
- *
+ * 
+ * Obs: Note que você deve utilizar a estrutura de dados array e não
+ * implementações de array prontas da API Collections de Java (como ArrayList,
+ * por exemplo).
+ * 
  * @author Adalberto
+ *
  */
-public class RepositorioProdutoArrayList {
-
+public class RepositorioProdutosArray implements InterfaceProduto {
   /**
-   * A estrutura onde os produtos sao mantidos. Voce nao precisa se preocupar
-   * por enquanto com o uso de generics em ArrayList.
+   * A estrutura (array) onde os produtos sao mantidos.
    */
-  private ArrayList<Produto> produtos;
+  private Produto[] produtos;
 
   /**
    * A posicao do ultimo elemento inserido no array de produtos. o valor
@@ -25,9 +26,9 @@ public class RepositorioProdutoArrayList {
    */
   private int index = -1;
 
-  public RepositorioProdutoArrayList(int size) {
+  public RepositorioProdutosArray(int size) {
     super();
-    this.produtos = new ArrayList<Produto>();
+    this.produtos = new Produto[size];
   }
 
   /**
@@ -37,11 +38,11 @@ public class RepositorioProdutoArrayList {
    * utilizam outras estruturas internas podem nao precisar desse método.
    * 
    * @param codigo
-   * @return
+   * @return o indice do produto, caso encontrado
    */
   private int procurarIndice(int codigo) {
-    for (int i = 0; i < produtos.size(); i++) {
-      if (produtos.get(i).getCodigo() == codigo) {
+    for (int i = 0; i < this.produtos.length; i++) {
+      if (codigo == this.produtos[i].getCodigo()) {
         return i;
       }
     }
@@ -54,20 +55,19 @@ public class RepositorioProdutoArrayList {
    * @param codigo
    * @return
    */
+  @Override
   public boolean existe(int codigo) {
-    for (int i = 0; i < produtos.size(); i++) {
-      if (produtos.get(i).getCodigo() == codigo) {
-        return true;
-      }
-    }
-    return false;
+    return procurarIndice(codigo) != -1;
   }
 
   /**
    * Insere um novo produto (sem se preocupar com duplicatas)
    */
+  @Override
   public void inserir(Produto produto) {
-    produtos.add(produto);
+    if (index + 1 <= this.produtos.length) {
+      this.produtos[++index] = produto;
+    }
   }
 
   /**
@@ -76,10 +76,7 @@ public class RepositorioProdutoArrayList {
    * utilizado.
    */
   public void atualizar(Produto produto) {
-    int indice = procurarIndice(produto.getCodigo());
-    if (indice == -1)
-      throw new RuntimeException("Produto não está no array");
-    this.produtos.set(indice, produto);
+    this.produtos[procurarIndice(produto.getCodigo())] = produto;
   }
 
   /**
@@ -91,7 +88,18 @@ public class RepositorioProdutoArrayList {
    */
   public void remover(int codigo) {
     if (existe(codigo)) {
-      this.produtos.remove(procurarIndice(codigo));
+      int indice = procurarIndice(codigo);
+      Produto[] prods = new Produto[this.produtos.length - 1];
+
+      for (int i = indice - 1; i < indice; i++) {
+        prods[i] = this.produtos[i];
+      }
+
+      for (int j = indice + 1; j < this.produtos.length; j++) {
+        prods[j] = this.produtos[j];
+      }
+
+      this.produtos = prods;
     }
   }
 
@@ -103,8 +111,9 @@ public class RepositorioProdutoArrayList {
    * @return
    */
   public Produto procurar(int codigo) {
-    if (existe(codigo)) {
-      return this.produtos.get(procurarIndice(codigo));
+    int indice = procurarIndice(codigo);
+    if (indice != -1) {
+      return this.produtos[procurarIndice(codigo)];
     }
     return null;
   }

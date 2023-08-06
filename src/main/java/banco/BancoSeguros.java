@@ -1,12 +1,12 @@
 package banco;
 
-public class BancoSeguros implements QualquerBanco{
+public class BancoSeguros implements QualquerBanco {
 
-  public double saldoTotal(){
+  public double saldoTotal() {
     return 1000;
   }
 
-  public int numContas(){
+  public int numContas() {
     return 7;
   }
 
