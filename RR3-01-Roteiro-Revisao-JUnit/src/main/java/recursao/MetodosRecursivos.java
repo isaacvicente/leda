@@ -42,15 +42,17 @@ public class MetodosRecursivos {
 	}
 
 	public double progressaoAritmetica(double termoInicial, double razao, int n) {
+		if (n == 1)
+			return termoInicial;
+
+		return progressaoAritmetica(termoInicial, razao, n - 1) + razao;
 	}
 
 	public double progressaoGeometrica(double termoInicial, double razao, int n) {
-		double result = 1;
-		// TODO IMPLEMENTE SEU CODIGO (USANDO RECURSAO) DE ENCONTRAR O n-ESIMO
-		// TERMO
-		// DA PROGRESSAO GEOMETRICA, DADO O TERMO INICIAL E A RAZAO
-		// VOCE NAO PODE USAR A FORMULA QUE CALCULA O N-ESIMO TERMO. DEVE USAR RECURSAO
-		return result;
+		if (n == 1)
+			return termoInicial;
+
+		return progressaoAritmetica(termoInicial, razao, n - 1) * razao;
 	}
 	
 	
