@@ -11,6 +11,7 @@ import sorting.simpleSorting.BubbleSort;
 import sorting.simpleSorting.InsertionSort;
 import sorting.simpleSorting.SelectionSort;
 import sorting.variationsOfBubblesort.BidirectionalBubbleSort;
+import sorting.variationsOfBubblesort.RecursiveBubbleSort;
 import sorting.variationsOfSelectionsort.RecursiveSelectionSort;
 
 public class StudentSortingTest {
@@ -43,7 +44,7 @@ public class StudentSortingTest {
 	private void getImplementation() {
 		// TODO O aluno deve instanciar sua implementação abaixo ao invés de
 		// null
-		this.implementation = new RecursiveSelectionSort<>();
+		this.implementation = new RecursiveBubbleSort<>();
 	}
 
 	public void populaVetorTamanhoPar(Integer[] arrayPadrao) {
