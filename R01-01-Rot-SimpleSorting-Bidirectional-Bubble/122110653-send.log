@@ -7,3 +7,13 @@
   <level>FINE</level>
   <message>File 122110653-ISAAC VICENTE DE MEDEIROS SILVA.zip was received. It was sent by ISAAC VICENTE DE MEDEIROS SILVA from IP 192.168.0.106 at 12-08-2023 15*22*37</message>
 </record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-08-16T20:45:36.366-0300</date>
+  <logger>ISAAC VICENTE DE MEDEIROS SILVA</logger>
+  <level>FINE</level>
+  <message>File 122110653-ISAAC VICENTE DE MEDEIROS SILVA.zip was received. It was sent by ISAAC VICENTE DE MEDEIROS SILVA from IP 192.168.0.106 at 16-08-2023 20*45*36</message>
+</record>
