@@ -1,6 +1,7 @@
 package sorting.divideAndConquer.quicksort3;
 
 import sorting.AbstractSorting;
+import java.util.Arrays;
 
 /**
  * A classe QuickSortMedianOfThree representa uma variação do QuickSort que
@@ -20,7 +21,44 @@ public class QuickSortMedianOfThree<T extends Comparable<T>> extends
 		AbstractSorting<T> {
 
 	public void sort(T[] array, int leftIndex, int rightIndex) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (leftIndex < rightIndex) {
+			int pivotInd = partition(array, leftIndex, rightIndex);
+			sort(array, leftIndex, pivotInd - 1);
+			sort(array, pivotInd + 1, rightIndex);
+		}
+	}
+
+	private int partition(T[] v, int left, int right) {
+		int pivotInd = pickPivotIndex(v, left, right);
+		swap(v, left, pivotInd);
+
+		T pivot = v[left];
+		int i = left;
+
+		for (int j = i + 1; j <= right; j++) {
+			if (v[j].compareTo(pivot) <= 0) {
+				swap(v, ++i, j);
+			}
+		}
+
+		swap(v, i, left);
+		return i;
+	}
+
+	public int pickPivotIndex(T[] values, int left, int right) {
+		int mid = (left + right) / 2;
+
+		T[] sorted = (T[]) new Comparable[]{values[left], values[mid], values[right]};
+		Arrays.sort(sorted);
+
+		if (sorted[1] == values[left]) return left;
+		else if (sorted[1] == values[mid]) return mid;
+		else return right;
+	}
+
+	private void swap(T[] a, int i, int j) {
+		T aux = a[i];
+		a[i] = a[j];
+		a[j] = aux;
 	}
 }
