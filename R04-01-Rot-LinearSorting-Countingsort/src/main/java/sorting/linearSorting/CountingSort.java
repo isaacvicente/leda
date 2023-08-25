@@ -26,7 +26,7 @@ public class CountingSort extends AbstractSorting<Integer> {
 		}
 	}
 
-	public Integer[] countingSort(Integer[] v, int leftIndex, int rightIndex) {
+	private Integer[] countingSort(Integer[] v, int leftIndex, int rightIndex) {
 		int k = v[leftIndex];
 		for (int i = leftIndex + 1; i <= rightIndex; i++) {
 			if (v[i].compareTo(k) > 0)
