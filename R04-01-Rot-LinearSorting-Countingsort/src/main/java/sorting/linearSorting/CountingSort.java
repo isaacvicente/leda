@@ -16,7 +16,6 @@ import java.util.Arrays;
  *
  */
 public class CountingSort extends AbstractSorting<Integer> {
-	// TODO: Documentar um pouco
 	@Override
 	public void sort(Integer[] array, int leftIndex, int rightIndex) {
 		if (leftIndex < rightIndex) {

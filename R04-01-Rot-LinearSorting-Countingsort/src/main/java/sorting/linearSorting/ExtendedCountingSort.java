@@ -11,7 +11,6 @@ import java.util.Arrays;
  * - Ser capaz de ordenar arrays contendo numeros negativos
  */
 public class ExtendedCountingSort extends AbstractSorting<Integer> {
-	// TODO: Documentar um pouco
 	@Override
 	public void sort(Integer[] array, int leftIndex, int rightIndex) {
 		if (leftIndex < rightIndex) {
