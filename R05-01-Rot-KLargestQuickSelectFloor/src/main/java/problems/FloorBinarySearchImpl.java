@@ -7,28 +7,30 @@ public class FloorBinarySearchImpl implements Floor {
 	@Override
 	public Integer floor(Integer[] array, Integer x) {
 		quickSort(array, 0, array.length - 1);
-		return binarySearch(array, 0, array.length - 1, x);
+		return binarySearchWithFloor(array, 0, array.length - 1, x);
 	}
 	
-	private Integer binarySearch(Integer[] a, int left, int right, Integer k) {
-		if (right - left > 1) {
+	private Integer binarySearchWithFloor(Integer[] a, int left, int right, Integer k) {
+		Integer floor = null;
+		if (left <= right) {
 			int meio = (left + right) / 2;
 
-			if (a[meio] == k)
+			if (a[meio] == k) {
 				return a[meio];
-			
-			if (k > a[meio])
-				return binarySearch(a, meio + 1, right, k);
-			else
-				return binarySearch(a, left, meio - 1, k);
-		} else {
-			if (a[left] > k && a[right] > k)
-				return null;
-			if (a[right] <= k)
-				return a[right];
-			else
-				return a[left];
+			}
+
+			if (a[meio] < k) {
+				floor = a[meio];
+				Integer resto = binarySearchWithFloor(a, meio + 1, right, k);
+				if (resto != null)
+					floor = resto;
+			}
+			else {
+				floor = binarySearchWithFloor(a, left, meio - 1, k);
+			}
 		}
+
+		return floor;
 	}
 
 	private void quickSort(Integer[] a, int left, int rigth) {
