@@ -1,11 +1,9 @@
-package problems.test;
+package problems;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import problems.FloorBinarySearchImpl;
 
 public class FloorBinarySearchImplTest {
     private static FloorBinarySearchImpl floorImpl;
@@ -15,7 +13,7 @@ public class FloorBinarySearchImplTest {
         floorImpl = new FloorBinarySearchImpl();
     }
 
-    private static void genericTest(Integer[] array, Integer x, Integer expected) {
+    private void genericTest(Integer[] array, Integer x, Integer expected) {
         assertEquals(expected, floorImpl.floor(array, x));
     }
 

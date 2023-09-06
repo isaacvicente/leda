@@ -2,6 +2,8 @@ package problems;
 
 import util.Util;
 
+import java.util.Objects;
+
 public class FloorBinarySearchImpl implements Floor {
 
 	@Override
@@ -15,7 +17,7 @@ public class FloorBinarySearchImpl implements Floor {
 		if (left <= right) {
 			int meio = (left + right) / 2;
 
-			if (a[meio] == k) {
+			if (Objects.equals(a[meio], k)) {
 				return a[meio];
 			}
 
@@ -55,5 +57,4 @@ public class FloorBinarySearchImpl implements Floor {
 
 		return k;
 	}
-
 }
