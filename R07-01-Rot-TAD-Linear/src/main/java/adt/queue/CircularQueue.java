@@ -40,10 +40,17 @@ public class CircularQueue<T> implements Queue<T> {
 			throw new QueueUnderflowException();
 		}
 
-		int length = this.array.length;
+		this.elements--;
 		T element = head();
-		
-		this.head = (this.head + 1) % length;
+
+		if (this.elements == 1) {
+			this.head = -1;
+			this.tail = -1;
+		} else {
+			int length = this.array.length;
+			this.head = (this.head + 1) % length;
+		}
+
 		return element;
 	}
 
