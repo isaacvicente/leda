@@ -64,12 +64,38 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 	@Override
 	public void remove(T element) {
 		if (!isEmpty()) {
-			SingleLinkedListNode<T> aux = new SingleLinkedListNode<>();
+			SingleLinkedListNode<T> aux = getHead();
 
-			while (aux.getNext().isNIL() || aux.getNext().getData().equals(element)) {
+			boolean found = false;
+			int i;
+			for (i = 0; i < size() - 1; i++) {
+				if (element.equals(getHead().getData())) {
+					found = true;
+					break;
+				}
+				
+				if (aux.getNext().getData().equals(element)) {
+					found = true;
+					break;
+				}
 				aux = aux.getNext();
 			}
-		// TODO
+			
+			if (found) {
+				if (i == 0) {
+					if (size() == 1) {
+						this.head = new SingleLinkedListNode<T>();
+					} else {
+						this.head = aux.getNext();
+					}
+				} else if (i == size() - 2) {
+					aux.setNext(null);
+				} else {
+					SingleLinkedListNode<T> nodeToBeRemoved = aux.getNext();
+					aux.setNext(nodeToBeRemoved.getNext());
+					nodeToBeRemoved.setNext(null);
+				}
+			}
 		}
 	}
 
