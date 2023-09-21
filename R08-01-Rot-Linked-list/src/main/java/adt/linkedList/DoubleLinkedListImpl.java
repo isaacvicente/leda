@@ -1,7 +1,5 @@
 package adt.linkedList;
 
-import org.w3c.dom.Node;
-
 public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 		DoubleLinkedList<T> {
 
@@ -31,7 +29,13 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 	@Override
 	public void removeFirst() {
 		if (!isEmpty()) {
-			// TODO
+			if (size() == 1) {
+				this.last = new DoubleLinkedListNode<T>();
+				this.head = this.last;
+			} else {
+				this.head = this.head.next;
+				((DoubleLinkedListNode<T>) this.head).setPrevious(new DoubleLinkedListNode<T>());
+			}
 		}
 	}
 
