@@ -13,47 +13,86 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 
 	@Override
 	public boolean isEmpty() {
-		return this.data == null;
+		return getData() == null;
 	}
 
 	@Override
 	public int size() {
-		if (this.getNext() == null) {
-			if (getData() != null)
-				return 1;
-			else
-				return 0;
+		if (isEmpty()) {
+			return 0;
 		}
 		
-		return 2 + this.next.size();
+		return 1 + this.next.size();
 	}
 
 	@Override
 	public T search(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isEmpty()) {
+			return null;
+		}
+		if (getData() == element) {
+			return element;
+		}
+		
+		return getNext().search(element);
 	}
 
 	@Override
 	public void insert(T element) {
 		if (isEmpty()) {
 			setData(element);
+			setNext(new RecursiveSingleLinkedListImpl<T>());
 		} else {
-			setNext(new RecursiveSingleLinkedListImpl<T>(element));
+			getNext().insert(element);
+			
 		}
 	}
 
 	@Override
 	public void remove(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		recursiveRemove(element, true);
+	}
+
+	private void recursiveRemove(T element, boolean firstElement) {
+		if (!isEmpty()) {
+			if (size() == 1) {
+				if (getData().equals(element)) {
+					setData(null);
+					setNext(null);
+				} else {
+					recursiveRemove(element, false);
+				}
+			} else {
+				if (!getNext().isEmpty()) {
+					if (firstElement && getData().equals(element)) {
+						setData(getNext().getData());
+						setNext(getNext().getNext());
+					} else {
+						if (getNext().getData().equals(element)) {
+							setNext(getNext().getNext());
+						} else {
+							recursiveRemove(element, false);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
 	public T[] toArray() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		T[] result = (T[]) new Object[size()];
+		int i = 0;
+		recursiveToArray(result, i);
+		return result;
 	}
+	
+	private void recursiveToArray(T[] array, int i) {
+		if (!isEmpty()) {
+			array[i++] = getData();
+			getNext().recursiveToArray(array, i);
+		}
+	}	
 
 	public T getData() {
 		return data;
