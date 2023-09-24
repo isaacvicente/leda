@@ -30,10 +30,6 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 
 	@Override
 	public void insertFirst(T element) {
-		// DoubleLinkedListNode<T> node = new DoubleLinkedListNode<>();
-		// node.setData(element);
-		// node.setPrevious(new DoubleLinkedListNode<>());
-
 		if (element != null) {
 			if (isEmpty()) {
 				insert(element);
@@ -42,9 +38,6 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 				getHead(), new DoubleLinkedListNode<>());
 				getHead().setPrevious(newNode);
 				setHead(newNode);
-				// node.setNext(getHead());
-				// ((DoubleLinkedListNode<T>) this.head).setPrevious(node);
-				// this.head = node;
 			}
 		}
 	}
@@ -76,7 +69,7 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 	
 	@Override
 	public DoubleLinkedListNode<T> getHead() {
-		return (DoubleLinkedListNode<T>) super.getHead();
+		return (DoubleLinkedListNode<T>) this.head;
 	}
 
 	public DoubleLinkedListNode<T> getLast() {

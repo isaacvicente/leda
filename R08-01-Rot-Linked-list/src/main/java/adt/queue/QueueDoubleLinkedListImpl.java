@@ -20,7 +20,7 @@ public class QueueDoubleLinkedListImpl<T> implements Queue<T> {
 		}
 
 		if (element != null)
-			this.list.insertFirst(element);
+			this.list.insert(element);
 	}
 
 	@Override

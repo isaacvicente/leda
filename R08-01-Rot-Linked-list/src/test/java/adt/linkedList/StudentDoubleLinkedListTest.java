@@ -1,5 +1,7 @@
 package adt.linkedList;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,14 +21,14 @@ public class StudentDoubleLinkedListTest extends StudentLinkedListTest {
 		lista1.insert(1);
 
 		// Lista com 1 elemento.
-		lista3.insert(1);
+		lista2.insert(1);
 	}
 
 	private void getImplementations() {
 		// TODO O aluno deve ajustar aqui para instanciar sua implementação
-		lista1 = new DoubleLinkedListImpl<>();
-		lista2 = new DoubleLinkedListImpl<>();
-		lista3 = new DoubleLinkedListImpl<>();
+		lista1 = new RecursiveDoubleLinkedListImpl<Integer>();
+		lista2 = new RecursiveDoubleLinkedListImpl<Integer>();
+		lista3 = new RecursiveDoubleLinkedListImpl<Integer>();
 	}
 
 	// Métodos de DoubleLinkedList
@@ -47,5 +49,28 @@ public class StudentDoubleLinkedListTest extends StudentLinkedListTest {
 	public void testRemoveLast() {
 		((DoubleLinkedList<Integer>) lista1).removeLast();
 		Assert.assertArrayEquals(new Integer[] { 3, 2 }, lista1.toArray());
+	}
+	
+	@Test
+	public void testRemoveLastWithTwoElements() {
+		lista2.insert(5);
+		((DoubleLinkedList<Integer>) lista2).removeLast();
+		Assert.assertArrayEquals(new Integer[] { 1 }, lista2.toArray());
+	}
+
+	@Test
+	public void testToArrayRemoveElementNotInList() {
+		Assert.assertEquals(3, lista1.size());
+		Assert.assertEquals(1, lista2.size());
+		lista1.remove(4);
+		lista2.remove(4);
+		assertArrayEquals(new Integer[] { 3, 2, 1 }, lista1.toArray());
+		assertArrayEquals(new Integer[] { 1 }, lista2.toArray());
+	}
+
+	@Test
+	public void testRemoveLastOne() {
+		((DoubleLinkedList<Integer>) lista2).removeLast();
+		Assert.assertArrayEquals(new Integer[] { }, lista2.toArray());
 	}
 }

@@ -42,7 +42,7 @@ public class StudentQueueTest {
 	// MÉTODOS DE TESTE
 	@Test
 	public void testHead() {
-		assertEquals(new Integer(1), queue1.head());
+		assertEquals(new Integer(1), queue2.head());
 	}
 
 	@Test
