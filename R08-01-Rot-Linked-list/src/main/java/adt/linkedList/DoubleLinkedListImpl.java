@@ -14,9 +14,10 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 	public void insert(T element) {
 		if (element != null) {
 			if (isEmpty()) {
-				setLast(new DoubleLinkedListNode<T>(element,
-							    new DoubleLinkedListNode<>(), new DoubleLinkedListNode<>()));
-				setHead(getLast());
+				DoubleLinkedListNode<T> rawNode = new DoubleLinkedListNode<>();
+				DoubleLinkedListNode<T> newNode = new DoubleLinkedListNode<T>(element, rawNode, rawNode);
+				setLast(newNode);
+				setHead(newNode);
 			} else {
 				DoubleLinkedListNode<T> newNode = new DoubleLinkedListNode<>(element,
 				new DoubleLinkedListNode<>(), this.last);
@@ -29,17 +30,22 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 
 	@Override
 	public void insertFirst(T element) {
-		DoubleLinkedListNode<T> node = new DoubleLinkedListNode<>();
-		node.setData(element);
-		node.setPrevious(new DoubleLinkedListNode<>());
+		// DoubleLinkedListNode<T> node = new DoubleLinkedListNode<>();
+		// node.setData(element);
+		// node.setPrevious(new DoubleLinkedListNode<>());
 
-		if (isEmpty()) {
-			node.setNext(new DoubleLinkedListNode<>());
-			setHead(node);
-		} else {
-			node.setNext(getHead());
-			((DoubleLinkedListNode<T>) this.head).setPrevious(node);
-			this.head = node;
+		if (element != null) {
+			if (isEmpty()) {
+				insert(element);
+			} else {
+				DoubleLinkedListNode<T> newNode = new DoubleLinkedListNode<T>(element,
+				getHead(), new DoubleLinkedListNode<>());
+				getHead().setPrevious(newNode);
+				setHead(newNode);
+				// node.setNext(getHead());
+				// ((DoubleLinkedListNode<T>) this.head).setPrevious(node);
+				// this.head = node;
+			}
 		}
 	}
 
@@ -66,6 +72,11 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 				this.last.setNext(new DoubleLinkedListNode<T>());
 			}
 		}
+	}
+	
+	@Override
+	public DoubleLinkedListNode<T> getHead() {
+		return (DoubleLinkedListNode<T>) super.getHead();
 	}
 
 	public DoubleLinkedListNode<T> getLast() {

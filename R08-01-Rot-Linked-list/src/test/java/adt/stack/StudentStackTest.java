@@ -13,6 +13,7 @@ public class StudentStackTest {
 	public Stack<Integer> stack1;
 	public Stack<Integer> stack2;
 	public Stack<Integer> stack3;
+	public Stack<Integer> emptyStack;
 
 	@Before
 	public void setUp() throws StackOverflowException {
@@ -32,9 +33,10 @@ public class StudentStackTest {
 
 	private void getImplementations() {
 		// TODO O aluno deve ajustar aqui para instanciar sua implementação
-		stack1 = null;
-		stack2 = null;
-		stack3 = null;
+		stack1 = new StackDoubleLinkedListImpl<Integer>(4);
+		stack2 = new StackDoubleLinkedListImpl<Integer>(2);
+		stack3 = new StackDoubleLinkedListImpl<Integer>(0);
+		emptyStack = new StackDoubleLinkedListImpl<Integer>(0);
 	}
 
 	// MÉTODOS DE TESTE
@@ -66,14 +68,14 @@ public class StudentStackTest {
 
 	@Test(expected = StackOverflowException.class)
 	public void testPushComErro() throws StackOverflowException {
-		stack1.push(new Integer(5)); // levanta excecao apenas se o tamanhonao
+		emptyStack.push(new Integer(5)); // levanta excecao apenas se o tamanhonao
 										// permitir outra insercao
 	}
 
 	@Test
 	public void testPop() {
 		try {
-			assertEquals(new Integer(3), stack1.pop());
+			assertEquals(new Integer(3), emptyStack.pop());
 		} catch (StackUnderflowException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,7 +84,7 @@ public class StudentStackTest {
 
 	@Test(expected = StackUnderflowException.class)
 	public void testPopComErro() throws StackUnderflowException {
-		assertEquals(new Integer(3), stack1.pop()); // levanta excecao apenas se
+		assertEquals(new Integer(3), emptyStack.pop()); // levanta excecao apenas se
 													// stack1 for vazia
 	}
 }
