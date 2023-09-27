@@ -1,5 +1,7 @@
 package adt.hashtable.closed;
 
+import java.util.LinkedList;
+
 import adt.hashtable.hashfunction.HashFunction;
 import adt.hashtable.hashfunction.HashFunctionClosedAddress;
 import adt.hashtable.hashfunction.HashFunctionClosedAddressMethod;
@@ -66,27 +68,47 @@ public class HashtableClosedAddressImpl<T> extends
 
 	@Override
 	public void insert(T element) {
-		int hash = ((HashFunctionClosedAddress<T>) this.hashFunction).hash(element);
+		if (element != null) {
+			int hash = ((HashFunctionClosedAddress<T>) this.hashFunction).hash(element);
 
-		if (!isFull()) {
-			this.table[hash] = element;
+			LinkedList<T>[] thisTable = ((LinkedList<T>[]) this.table);
+
+			thisTable[hash].add(element);
+
+			if (thisTable[hash].size() > 1)
+				this.COLLISIONS++;
 		}
 	}
 
 	@Override
 	public void remove(T element) {
-		// TODO E quando um elemento já está na posição?
-		int hash = ((HashFunctionClosedAddress<T>) this.hashFunction).hash(element);
+		if (element != null) {
+			int hash = ((HashFunctionClosedAddress<T>) this.hashFunction).hash(element);
 
-		if (!isEmpty()) {
-			this.table[hash] = null;
+			LinkedList<T>[] thisTable = ((LinkedList<T>[]) this.table);
+
+			thisTable[hash].remove(element);
+
+			if (thisTable[hash].size() == 1)
+				this.COLLISIONS--;
 		}
 	}
 
 	@Override
 	public T search(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		T result = null;
+
+		if (element != null) {
+			int hash = ((HashFunctionClosedAddress<T>) this.hashFunction).hash(element);
+
+			LinkedList<T>[] thisTable = ((LinkedList<T>[]) this.table);
+
+			if (thisTable[hash].size() != 0) {
+				result = element;
+			}
+		}
+
+		return result;
 	}
 
 	@Override
