@@ -6,7 +6,6 @@ import adt.hashtable.hashfunction.HashFunction;
 import adt.hashtable.hashfunction.HashFunctionClosedAddress;
 import adt.hashtable.hashfunction.HashFunctionClosedAddressMethod;
 import adt.hashtable.hashfunction.HashFunctionFactory;
-import adt.hashtable.open.DELETED;
 import util.Util;
 
 public class HashtableClosedAddressImpl<T> extends
@@ -66,6 +65,7 @@ public class HashtableClosedAddressImpl<T> extends
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void insert(T element) {
 		if (element != null) {
@@ -73,13 +73,19 @@ public class HashtableClosedAddressImpl<T> extends
 
 			LinkedList<T>[] thisTable = ((LinkedList<T>[]) this.table);
 
-			thisTable[hash].add(element);
+			if (thisTable[hash] == null) {
+				this.table[hash] = new LinkedList<T>();
+			}
+			((LinkedList<T>) this.table[hash]).add(element);
 
 			if (thisTable[hash].size() > 1)
 				this.COLLISIONS++;
+			
+			this.elements++;
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void remove(T element) {
 		if (element != null) {
@@ -87,13 +93,17 @@ public class HashtableClosedAddressImpl<T> extends
 
 			LinkedList<T>[] thisTable = ((LinkedList<T>[]) this.table);
 
-			thisTable[hash].remove(element);
+			if (thisTable[hash] != null && !thisTable[hash].isEmpty())
+				thisTable[hash].remove(element);
 
 			if (thisTable[hash].size() == 1)
 				this.COLLISIONS--;
+			
+			this.elements--;
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T search(T element) {
 		T result = null;
@@ -103,18 +113,27 @@ public class HashtableClosedAddressImpl<T> extends
 
 			LinkedList<T>[] thisTable = ((LinkedList<T>[]) this.table);
 
-			if (thisTable[hash].size() != 0) {
-				result = element;
+			if (thisTable[hash] != null && !thisTable[hash].isEmpty()) {
+				if (thisTable[hash].contains(element))
+					result = element;
 			}
 		}
 
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int indexOf(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
+		int result = - 1;
+		int hash = ((HashFunctionClosedAddress<T>) this.hashFunction).hash(element);
+		LinkedList<T>[] thisTable = ((LinkedList<T>[]) this.table);
 
+		if (thisTable[hash] != null && !thisTable[hash].isEmpty()) {
+			if (thisTable[hash].contains(element))
+				result = hash;			
+		}
+
+		return result;
+	}
 }
