@@ -15,8 +15,26 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
 
 	@Override
 	public void insert(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isFull()) {
+			throw new HashtableOverflowException();
+		} else {
+			if (element != null) {
+				int probe = 0;
+				int hash = getHash(element, probe);
+
+				while (this.table[hash] != null) {
+					probe = probe * probe;
+					hash = getHash(element, probe);
+				}
+				
+				if (probe > 0) {
+					this.COLLISIONS += probe;
+				}
+				
+				this.table[hash] = element;
+				this.elements++;
+			}
+		}
 	}
 
 	@Override
@@ -35,5 +53,9 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
 	public int indexOf(T element) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Not implemented yet!");
+	}
+	
+	private int getHash(T element, int probe) {
+		return ((HashFunctionQuadraticProbing<T>) this.hashFunction).hash(element, probe);
 	}
 }

@@ -15,26 +15,90 @@ public class HashtableOpenAddressLinearProbingImpl<T extends Storable> extends
 
 	@Override
 	public void insert(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isFull()) {
+			throw new HashtableOverflowException();
+		} else {
+			if (element != null) {
+				int probe = 0;
+				int hash = getHash(element, probe);
+
+				while (this.table[hash] != null) {
+					probe++;
+					hash = getHash(element, probe);
+				}
+				
+				if (probe > 0) {
+					this.COLLISIONS += probe;
+				}
+				
+				this.table[hash] = element;
+				this.elements++;
+			}
+		}
 	}
 
 	@Override
 	public void remove(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (!isEmpty() && element != null) {
+			int probe = 0;
+			int hash = getHash(element, probe);
+
+			while (this.table[hash] != null) {
+				if (this.table[hash].equals(element)) {
+					this.table[hash] = new DELETED();
+					this.elements--;
+					if (probe == 1)
+						this.COLLISIONS--;
+					break;
+				}
+				probe++;
+				hash = getHash(element, probe);
+			}
+		}
 	}
 
 	@Override
 	public T search(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		T result = null;
+		if (!isEmpty() && element != null) {
+			int probe = 0;
+			int hash = getHash(element, probe);
+
+			while (this.table[hash] != null) {
+				if (this.table[hash].equals(element)) {
+					result = (T) this.table[hash];
+					break;
+				}
+				probe++;
+				hash = getHash(element, probe);
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int indexOf(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		int result = -1;
+		if (!isEmpty() && element != null) {
+			int probe = 0;
+			int hash = getHash(element, probe);
+
+			while (this.table[hash] != null) {
+				if (this.table[hash].equals(element)) {
+					result = hash;
+					break;
+				}
+				probe++;
+				hash = getHash(element, probe);
+			}
+		}
+		
+		return result;
+	}
+	
+	private int getHash(T element, int probe) {
+		return ((HashFunctionLinearProbing<T>) this.hashFunction).hash(element, probe);
 	}
 
 }

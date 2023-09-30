@@ -65,7 +65,6 @@ public class HashtableClosedAddressImpl<T> extends
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void insert(T element) {
 		if (element != null) {
@@ -88,7 +87,6 @@ public class HashtableClosedAddressImpl<T> extends
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void remove(T element) {
 		if (element != null) {
@@ -106,7 +104,6 @@ public class HashtableClosedAddressImpl<T> extends
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public T search(T element) {
 		T result = null;
@@ -125,16 +122,17 @@ public class HashtableClosedAddressImpl<T> extends
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public int indexOf(T element) {
 		int result = - 1;
 		int hash = ((HashFunctionClosedAddress<T>) this.hashFunction).hash(element);
 		LinkedList<T>[] thisTable = ((LinkedList<T>[]) this.table);
 
-		if (thisTable[hash] != null && !thisTable[hash].isEmpty()) {
-			if (thisTable[hash].contains(element))
-				result = hash;			
+		if (element != null) {
+			if (thisTable[hash] != null && !thisTable[hash].isEmpty()) {
+				if (thisTable[hash].contains(element))
+					result = hash;			
+			}
 		}
 
 		return result;
