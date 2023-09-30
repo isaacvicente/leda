@@ -76,7 +76,10 @@ public class HashtableClosedAddressImpl<T> extends
 			if (thisTable[hash] == null) {
 				this.table[hash] = new LinkedList<T>();
 			}
-			((LinkedList<T>) this.table[hash]).add(element);
+			
+			if (!thisTable[hash].contains(element)) {
+				((LinkedList<T>) this.table[hash]).add(element);
+			}
 
 			if (thisTable[hash].size() > 1)
 				this.COLLISIONS++;
