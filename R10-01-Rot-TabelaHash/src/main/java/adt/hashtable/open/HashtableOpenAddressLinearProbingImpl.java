@@ -25,10 +25,7 @@ public class HashtableOpenAddressLinearProbingImpl<T extends Storable> extends
 				while (this.table[hash] != null) {
 					probe++;
 					hash = getHash(element, probe);
-				}
-				
-				if (probe > 0) {
-					this.COLLISIONS += probe;
+					this.COLLISIONS++;
 				}
 				
 				this.table[hash] = element;

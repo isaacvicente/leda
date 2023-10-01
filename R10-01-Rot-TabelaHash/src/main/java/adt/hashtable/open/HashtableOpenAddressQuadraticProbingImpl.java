@@ -19,40 +19,75 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
 			throw new HashtableOverflowException();
 		} else {
 			if (element != null) {
+				boolean found = false;
 				int probe = 0;
 				int hash = getHash(element, probe);
 
 				while (this.table[hash] != null) {
-					probe = probe * probe;
+					this.COLLISIONS++;
+					if (this.table[hash].equals(element)) {
+						found = true;
+						break;
+					}
+					probe++;
 					hash = getHash(element, probe);
 				}
 				
-				if (probe > 0) {
-					this.COLLISIONS += probe;
+				// Só insere se não há um elemento igual na estrutura
+				// (hashtable não contém duplicados)
+				if (!found) {
+					this.table[hash] = element;
+					this.elements++;
 				}
-				
-				this.table[hash] = element;
-				this.elements++;
 			}
 		}
 	}
 
 	@Override
 	public void remove(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (!isEmpty() && element != null) {
+			int index =  indexOf(element);
+			
+			if (index != -1) {
+				this.table[index] = this.deletedElement;
+				this.elements--;
+			}
+		}
 	}
 
 	@Override
 	public T search(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		T result = null;
+		if (!isEmpty() && element != null) {
+			int index = indexOf(element);
+			
+			if (index != -1) {
+				result = (T) this.table[index];
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int indexOf(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		int result = -1;
+		if (!isEmpty() && element != null) {
+			int probe = 0;
+			int hash = getHash(element, probe);
+
+			while (this.table[hash] != null) {
+				if (this.table[hash].equals(element)) {
+					result = hash;
+					break;
+				}
+
+				++probe;
+				hash = getHash(element, probe);
+			}
+		}
+		
+		return result;
 	}
 	
 	private int getHash(T element, int probe) {
