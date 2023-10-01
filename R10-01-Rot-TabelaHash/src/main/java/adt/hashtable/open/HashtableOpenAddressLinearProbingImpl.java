@@ -19,17 +19,26 @@ public class HashtableOpenAddressLinearProbingImpl<T extends Storable> extends
 			throw new HashtableOverflowException();
 		} else {
 			if (element != null) {
+				boolean found = false;
 				int probe = 0;
 				int hash = getHash(element, probe);
 
-				while (this.table[hash] != null) {
+				while (this.table[hash] != null && !this.table[hash].equals(this.deletedElement)) {
+					this.COLLISIONS++;
+					if (this.table[hash].equals(element)) {
+						found = true;
+						break;
+					}
 					probe++;
 					hash = getHash(element, probe);
-					this.COLLISIONS++;
 				}
 				
-				this.table[hash] = element;
-				this.elements++;
+				// Só insere se não há um elemento igual na estrutura
+				// (hashtable não contém duplicados)
+				if (!found) {
+					this.table[hash] = element;
+					this.elements++;
+				}
 			}
 		}
 	}

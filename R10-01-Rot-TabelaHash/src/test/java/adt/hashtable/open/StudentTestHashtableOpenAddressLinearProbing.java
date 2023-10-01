@@ -1,14 +1,14 @@
 package adt.hashtable.open;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import adt.hashtable.hashfunction.HashFunctionClosedAddressMethod;
-import adt.hashtable.open.AbstractHashtableOpenAddress;
-import adt.hashtable.open.HashtableElement;
-import adt.hashtable.open.HashtableOpenAddressLinearProbingImpl;
 
 public class StudentTestHashtableOpenAddressLinearProbing {
 
@@ -105,6 +105,18 @@ public class StudentTestHashtableOpenAddressLinearProbing {
 	@Test
 	public void testSize() {
 		assertEquals(4, table1.size());
+	}
+	
+	@Test
+	public void testDuplicates() {
+		assertEquals(4, table1.size());
+		table1.insert(new HashtableElement(4444));
+		assertEquals(5, table1.size());
+		table1.insert(new HashtableElement(4444));
+		assertEquals(5, table1.size());
+		table1.insert(new HashtableElement(4444));
+		table1.insert(new HashtableElement(4444));
+		assertEquals(5, table1.size());
 	}
 
 }
