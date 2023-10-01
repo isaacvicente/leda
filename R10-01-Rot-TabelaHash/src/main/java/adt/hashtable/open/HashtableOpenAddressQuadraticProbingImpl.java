@@ -23,7 +23,7 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
 				int probe = 0;
 				int hash = getHash(element, probe);
 
-				while (this.table[hash] != null) {
+				while (this.table[hash] != null && !this.table[hash].equals(this.deletedElement)) {
 					this.COLLISIONS++;
 					if (this.table[hash].equals(element)) {
 						found = true;
@@ -76,7 +76,7 @@ public class HashtableOpenAddressQuadraticProbingImpl<T extends Storable>
 			int probe = 0;
 			int hash = getHash(element, probe);
 
-			while (this.table[hash] != null) {
+			while (this.table[hash] != null && probe < this.capacity()) {
 				if (this.table[hash].equals(element)) {
 					result = hash;
 					break;
