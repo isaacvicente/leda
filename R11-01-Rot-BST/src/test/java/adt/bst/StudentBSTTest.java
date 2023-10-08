@@ -8,7 +8,9 @@ import org.junit.Test;
 import adt.bst.BSTImpl;
 import adt.bt.BTNode;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class StudentBSTTest {
@@ -100,12 +102,22 @@ public class StudentBSTTest {
 	@Test
 	public void testSize() {
 		fillTree(); // -40 -34 0 2 5 6 9 12 23 67 76 232
+		Integer element = null;
+
+		Integer[] array = { 6, 23, -34, 5, 9, 2, 0, 76, 12, 67, 232, -40 };
+		Arrays.sort(array);
+		assertArrayEquals(array, tree.order());
+		List<Integer> list = new LinkedList<Integer>(Arrays.asList(array));
 
 		int size = 12;
 		assertEquals(size, tree.size());
 
 		while (!tree.isEmpty()) {
-			tree.remove(tree.getRoot().getData());
+			assertArrayEquals(list.toArray(new Integer[0]), tree.order());
+			element = tree.getRoot().getData();
+			tree.remove(element);
+			list.remove(element);
+			assertArrayEquals(list.toArray(new Integer[0]), tree.order());
 			assertEquals(--size, tree.size());
 		}
 	}
@@ -141,9 +153,20 @@ public class StudentBSTTest {
 		order = new Integer[] { -40, -34, 0, 2, 5, 12, 23, 67, 76, 232 };
 		assertArrayEquals(order, tree.order());
 
+		tree.remove(0);
+		order = new Integer[] { -40, -34, 2, 5, 12, 23, 67, 76, 232 };
+		assertArrayEquals(order, tree.order());
+
+		tree.remove(12);
+		order = new Integer[] { -40, -34, 2, 5, 23, 67, 76, 232 };
+		assertArrayEquals(order, tree.order());
+
+		tree.remove(23);
+		order = new Integer[] { -40, -34, 2, 5, 67, 76, 232 };
+		assertArrayEquals(order, tree.order());
+
 		assertEquals(NIL, tree.search(6));
 		assertEquals(NIL, tree.search(9));
-
 	}
 
 	@Test

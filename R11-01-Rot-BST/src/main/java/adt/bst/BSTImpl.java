@@ -3,14 +3,12 @@ package adt.bst;
 import java.util.ArrayList;
 import java.util.List;
 
-import adt.bt.BTNode;
-
 public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 
 	protected BSTNode<T> root;
 
 	public BSTImpl() {
-		root = new BSTNode<T>();
+		root = new BSTNode<>();
 	}
 
 	public BSTNode<T> getRoot() {
@@ -75,8 +73,8 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 		if (element != null) {
 			if (node.isEmpty()) {
 				node.setData(element);
-				node.setLeft(new BSTNode<T>());
-				node.setRight(new BSTNode<T>());
+				node.setLeft(new BSTNode<>());
+				node.setRight(new BSTNode<>());
 				node.getLeft().setParent(node);
 				node.getRight().setParent(node);
 			} else {
@@ -201,15 +199,15 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 		if (element != null) {
 			BSTNode<T> node = search(element);
 
-			remove(node, element);
+			remove(node);
 		}
 	}
 
-	private void remove(BSTNode<T> node, T element) {
+	private void remove(BSTNode<T> node) {
 		if (!node.isEmpty()) {
 			if (node.isLeaf()) {
 				if (node == this.root) {
-					this.root = new BSTNode<T>();
+					this.root = new BSTNode<>();
 				} else {
 					if (node.getData().compareTo(node.getParent().getData()) > 0) {
 						node.getParent().setRight(new BSTNode<>());
@@ -220,7 +218,7 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 			} else if (hasOnlyLeftChild(node)) {
 				if (node == this.root) {
 					this.root = (BSTNode<T>) node.getLeft();
-					this.root.setParent(new BSTNode<T>());
+					this.root.setParent(new BSTNode<>());
 				} else {
 					node.getLeft().setParent(node.getParent());
 					if (node.getData().compareTo(node.getParent().getData()) < 0) {
@@ -232,7 +230,7 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 			} else if (hasOnlyRightChild(node)) {
 				if (node == this.root) {
 					this.root = (BSTNode<T>) node.getRight();
-					this.root.setParent(new BSTNode<T>());
+					this.root.setParent(new BSTNode<>());
 				} else {
 					node.getRight().setParent(node.getParent());
 					if (node.getData().compareTo(node.getParent().getData()) < 0) {
@@ -242,10 +240,9 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 					}
 				}
 			} else {
-				BSTNode<T> sucessor = sucessor(element);
-				node.setData(sucessor.getData());
-				element = sucessor.getData();
-				remove(sucessor, element);
+				BSTNode<T> successor = sucessor(node.getData());
+				remove(successor);
+				node.setData(successor.getData());
 			}
 		}
 	}
@@ -305,7 +302,7 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 
 	/**
 	 * This method is already implemented using recursion. You must understand
-	 * how it work and use similar idea with the other methods.
+	 * how it works and use similar idea with the other methods.
 	 */
 	@Override
 	public int size() {
@@ -315,7 +312,7 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 	private int size(BSTNode<T> node) {
 		int result = 0;
 		// base case means doing nothing (return 0)
-		if (!node.isEmpty()) { // indusctive case
+		if (!node.isEmpty()) { // inductive case
 			result = 1 + size((BSTNode<T>) node.getLeft())
 					+ size((BSTNode<T>) node.getRight());
 		}
