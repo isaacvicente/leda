@@ -8,6 +8,9 @@ import org.junit.Test;
 import adt.bst.BSTImpl;
 import adt.bt.BTNode;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class StudentBSTTest {
 
 	private BSTImpl<Integer> tree;
@@ -56,24 +59,24 @@ public class StudentBSTTest {
 	@Test
 	public void testMinMax() {
 		tree.insert(6);
-		assertEquals(new Integer(6), tree.minimum().getData());
-		assertEquals(new Integer(6), tree.maximum().getData());
+		assertEquals(Integer.valueOf(6), tree.minimum().getData());
+		assertEquals(Integer.valueOf(6), tree.maximum().getData());
 
 		tree.insert(23);
-		assertEquals(new Integer(6), tree.minimum().getData());
-		assertEquals(new Integer(23), tree.maximum().getData());
+		assertEquals(Integer.valueOf(6), tree.minimum().getData());
+		assertEquals(Integer.valueOf(23), tree.maximum().getData());
 
 		tree.insert(-34);
-		assertEquals(new Integer(-34), tree.minimum().getData());
-		assertEquals(new Integer(23), tree.maximum().getData());
+		assertEquals(Integer.valueOf(-34), tree.minimum().getData());
+		assertEquals(Integer.valueOf(23), tree.maximum().getData());
 
 		tree.insert(5);
-		assertEquals(new Integer(-34), tree.minimum().getData());
-		assertEquals(new Integer(23), tree.maximum().getData());
+		assertEquals(Integer.valueOf(-34), tree.minimum().getData());
+		assertEquals(Integer.valueOf(23), tree.maximum().getData());
 
 		tree.insert(9);
-		assertEquals(new Integer(-34), tree.minimum().getData());
-		assertEquals(new Integer(23), tree.maximum().getData());
+		assertEquals(Integer.valueOf(-34), tree.minimum().getData());
+		assertEquals(Integer.valueOf(23), tree.maximum().getData());
 	}
 
 	@Test
@@ -82,16 +85,16 @@ public class StudentBSTTest {
 		fillTree(); // -40 -34 0 2 5 6 9 12 23 67 76 232
 
 		assertEquals(null, tree.predecessor(-40));
-		assertEquals(new Integer(-34), tree.sucessor(-40).getData());
+		assertEquals(Integer.valueOf(-34), tree.sucessor(-40).getData());
 
-		assertEquals(new Integer(-40), tree.predecessor(-34).getData());
-		assertEquals(new Integer(0), tree.sucessor(-34).getData());
+		assertEquals(Integer.valueOf(-40), tree.predecessor(-34).getData());
+		assertEquals(Integer.valueOf(0), tree.sucessor(-34).getData());
 
-		assertEquals(new Integer(-34), tree.predecessor(0).getData());
-		assertEquals(new Integer(2), tree.sucessor(0).getData());
+		assertEquals(Integer.valueOf(-34), tree.predecessor(0).getData());
+		assertEquals(Integer.valueOf(2), tree.sucessor(0).getData());
 
-		assertEquals(new Integer(0), tree.predecessor(2).getData());
-		assertEquals(new Integer(5), tree.sucessor(2).getData());
+		assertEquals(Integer.valueOf(0), tree.predecessor(2).getData());
+		assertEquals(Integer.valueOf(5), tree.sucessor(2).getData());
 	}
 
 	@Test
@@ -148,8 +151,8 @@ public class StudentBSTTest {
 
 		fillTree(); // -40 -34 0 2 5 6 9 12 23 67 76 232
 
-		assertEquals(new Integer(-40), tree.search(-40).getData());
-		assertEquals(new Integer(-34), tree.search(-34).getData());
+		assertEquals(Integer.valueOf(-40), tree.search(-40).getData());
+		assertEquals(Integer.valueOf(-34), tree.search(-34).getData());
 		assertEquals(NIL, tree.search(2534));
 	}
 }
