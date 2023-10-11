@@ -178,4 +178,42 @@ public class StudentBSTTest {
 		assertEquals(Integer.valueOf(-34), tree.search(-34).getData());
 		assertEquals(NIL, tree.search(2534));
 	}
+
+	@Test
+	public void testMyRemove() {
+		BST<Integer> tree = new BSTImpl<>();
+		tree.insert(6);
+
+		tree.insert(0);
+		tree.insert(-1);
+		tree.insert(1);
+
+		tree.insert(10);
+		tree.insert(9);
+		tree.insert(11);
+
+		tree.remove(6);
+	}
+
+	@Test
+	public void testMySucessor() {
+		BST<Integer> tree = new BSTImpl<>();
+		tree.insert(15);
+		tree.insert(20);
+
+		tree.insert(6);
+		tree.insert(3);
+		tree.insert(2);
+		tree.insert(4);
+
+		tree.insert(7);
+		tree.insert(13);
+		tree.insert(9);
+
+		assertEquals(Integer.valueOf(15), tree.sucessor(13).getData());
+
+		tree.insert(14);
+
+		assertEquals(Integer.valueOf(14), tree.sucessor(13).getData());
+	}
 }
