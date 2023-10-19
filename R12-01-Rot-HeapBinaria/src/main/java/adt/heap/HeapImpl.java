@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import util.Util;
+
 /**
  * O comportamento de qualquer heap é definido pelo heapify. Neste caso o
  * heapify dessa heap deve comparar os elementos e colocar o menor sempre no
@@ -72,7 +74,7 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 		for (int i = 0; i <= this.index; i++) {
 			resp.add(this.heap[i]);
 		}
-		return (T[])resp.toArray(new Comparable[0]);
+		return (T[]) resp.toArray(new Comparable[0]);
 	}
 
 	// ///////////// METODOS A IMPLEMENTAR
@@ -83,8 +85,38 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 	 */
 	private void heapify(int position) {
 		if (!isLeaf(position) && isValidIndex(position)) {
-			int max_index = Math.max(position, Math.max(left(position), right(position)));
+			int max_index = max_of_three(position, left(position), right(position));
+
+			if (max_index != position) {
+				Util.swap(heap, position, max_index);
+				heapify(max_index);
+			}
 		}
+	}
+
+	private boolean isValidIndex(int i) {
+        return i >= 0 && i <= this.index;
+    }
+    
+    private boolean isLeaf(int i) {
+        return i > parent(this.index) && i <= this.index;
+    }
+
+	private int max_of_three(int n1, int n2, int n3) {
+		int result;
+		T a = this.heap[n1];
+		T b = this.heap[n2];
+		T c = this.heap[n3];
+
+		if (a.compareTo(b) >= 0 && a.compareTo(c) >= 0) {
+			result = n1;;
+		} else if (b.compareTo(a) >= 0 && b.compareTo(c) >= 0) {
+			result = n2;
+		} else {
+			result = n3;
+		}
+
+		return result;
 	}
 
 	@Override
@@ -108,8 +140,9 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 
 	@Override
 	public void buildHeap(T[] array) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		for (int i = parent(array.length - 1); i >= 0; i--) {
+			heapify(i);
+		}
 	}
 
 	@Override
@@ -128,8 +161,12 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 
 	@Override
 	public T rootElement() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		T result = null;
+		if (!isEmpty()) {
+			result = this.heap[this.index];
+		}
+
+		return result;
 	}
 
 	@Override
@@ -140,8 +177,7 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		return this.index + 1;
 	}
 
 	public Comparator<T> getComparator() {
