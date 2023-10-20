@@ -65,16 +65,16 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 
 	@Override
 	public boolean isEmpty() {
-		return (index == -1);
+		return index == -1;
 	}
 
 	@Override
 	public T[] toArray() {
-		ArrayList<T> resp = new ArrayList<T>();
-		for (int i = 0; i <= this.index; i++) {
-			resp.add(this.heap[i]);
-		}
-		return (T[]) resp.toArray(new Comparable[0]);
+		ArrayList<T> result = new ArrayList<T>();
+		for (int i = 0; i <= this.index; i++)
+			result.add(this.heap[i]);
+
+		return (T[]) result.toArray(new Comparable[0]);
 	}
 
 	// ///////////// METODOS A IMPLEMENTAR
@@ -83,40 +83,24 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 	 * ser a raiz da heap ou de uma sub-heap. O heapify deve usar o comparator
 	 * para subir os elementos na heap.
 	 */
-	private void heapify(int position) {
-		if (!isLeaf(position) && isValidIndex(position)) {
-			int max_index = max_of_three(position, left(position), right(position));
+	 private void heapify(int position) {
+		if (position >= 0 && position < this.size()) {
+			int left = left(position);
+			int right = right(position);
+			int largest = position;
+			if (right <= this.index && comparator.compare(getHeap()[right], getHeap()[position]) > 0) {
+				largest = right;
+			}
 
-			if (max_index != position) {
-				Util.swap(heap, position, max_index);
-				heapify(max_index);
+			if (left <= this.index && comparator.compare(getHeap()[left], getHeap()[largest]) > 0) {
+				largest = left;
+			}
+
+			if (largest != position){
+				Util.swap(heap, position, largest);
+				heapify(largest);
 			}
 		}
-	}
-
-	private boolean isValidIndex(int i) {
-        return i >= 0 && i <= this.index;
-    }
-    
-    private boolean isLeaf(int i) {
-        return i > parent(this.index) && i <= this.index;
-    }
-
-	private int max_of_three(int n1, int n2, int n3) {
-		int result;
-		T a = this.heap[n1];
-		T b = this.heap[n2];
-		T c = this.heap[n3];
-
-		if (a.compareTo(b) >= 0 && a.compareTo(c) >= 0) {
-			result = n1;;
-		} else if (b.compareTo(a) >= 0 && b.compareTo(c) >= 0) {
-			result = n2;
-		} else {
-			result = n3;
-		}
-
-		return result;
 	}
 
 	@Override
@@ -125,23 +109,28 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 		if (index == heap.length - 1) {
 			heap = Arrays.copyOf(heap, heap.length + INCREASING_FACTOR);
 		}
-		
-		index++;
-		this.heap[index] = element;
 
-		int i = index;
-		while (i > 0 && this.heap[parent(i)].compareTo(this.heap[i]) < 0) {
-			T aux = this.heap[i];
-			this.heap[i] = this.heap[parent(i)];
-			this.heap[parent(i)] = aux;
-			i = parent(i);
+		if (element != null) {
+			index += 1;
+			this.heap[index] = element;
+
+			int i = index;
+			while (i > 0 && comparator.compare(heap[parent(i)], element) < 0) {
+				Util.swap(this.heap, i, this.parent(i));
+				i = parent(i);
+			}
 		}
 	}
 
 	@Override
 	public void buildHeap(T[] array) {
-		for (int i = parent(array.length - 1); i >= 0; i--) {
-			heapify(i);
+		if (array != null) {
+			heap = array;
+			index = array.length - 1;
+
+			for(int i = index / 2; i >= 0; i--){
+				heapify(i);
+			}
 		}
 	}
 
@@ -149,9 +138,8 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 	public T extractRootElement() {
 		T result = null;
 		if (!isEmpty()) {
-			result = this.heap[0];
-			this.heap[0] = this.heap[index];
-			this.index--;
+			result = rootElement();
+			this.heap[0] = this.heap[index--];
 
 			heapify(0);
 		}
@@ -163,7 +151,7 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 	public T rootElement() {
 		T result = null;
 		if (!isEmpty()) {
-			result = this.heap[this.index];
+			result = this.heap[0];
 		}
 
 		return result;
@@ -171,8 +159,22 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 
 	@Override
 	public T[] heapsort(T[] array) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (array != null && array.length >= 2) {
+			buildHeap(array);
+			for (int i = index; i >= 0; i--) {
+				Util.swap(array, i, 0);
+				index--;
+				heapify(0);
+			}
+			
+			if (heap[0].compareTo(heap[1]) > 0) {
+				int cont = array.length - 1;
+				for (int i = 0; i < cont; i++) {
+					Util.swap(array, i, cont--);
+				}
+			}
+		}
+		return array;
 	}
 
 	@Override
@@ -191,5 +193,4 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 	public T[] getHeap() {
 		return heap;
 	}
-
 }
