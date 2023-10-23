@@ -22,8 +22,27 @@ public class BSTVerifierImpl<T extends Comparable<T>> implements BSTVerifier<T> 
 
 	@Override
 	public boolean isBST() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		return isBST(getBSt().getRoot());
 	}
-	
+
+	private boolean isBST(BSTNode<T> node) {
+		boolean result = false;
+		if (!node.isEmpty() && node.isLeaf())
+			result = true;
+		else {
+			if (node.getRight().isLeaf() || node.getLeft().isLeaf()) {
+				if (node.getRight().isLeaf()) {
+					result = node.getRight().getData().compareTo(node.getData()) > 0;
+				}
+
+				if (node.getLeft().isLeaf()) {
+					result = node.getLeft().getData().compareTo(node.getData()) < 0;
+				}
+			} else {
+				result = isBST((BSTNode<T>) node.getRight()) && isBST((BSTNode<T>) node.getLeft());
+			}
+		}
+
+		return result;
+	}
 }

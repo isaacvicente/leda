@@ -33,7 +33,7 @@ public class StudentAVLTest {
 		assertArrayEquals(new Integer[] { -10 }, avl.preOrder());
 
 		assertFalse(avl.isEmpty());
-		assertEquals(new Integer(-10), avl.getRoot().getData());
+		assertEquals(Integer.valueOf(-10), avl.getRoot().getData());
 
 		avl.insert(-15);
 		assertEquals(2, avl.size());

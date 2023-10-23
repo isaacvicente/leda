@@ -24,7 +24,6 @@ public class AVLTreeVerifierImpl<T extends Comparable<T>> extends BSTVerifierImp
 
 	@Override
 	public boolean isAVLTree() {
-
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Not implemented yet!");
 
