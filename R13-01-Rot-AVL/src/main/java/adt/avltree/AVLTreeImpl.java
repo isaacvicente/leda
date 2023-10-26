@@ -47,13 +47,37 @@ public class AVLTreeImpl<T extends Comparable<T>> extends BSTImpl<T> implements
 				}
 			}
 		}
+		 // TODO: rebalance if needed
+		checkRebalance(node);
 	}
 
 
 	// AUXILIARY
 	protected int calculateBalance(BSTNode<T> node) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		return heigth((BSTNode<T>) node.getLeft()) - heigth((BSTNode<T>) node.getRight());
+	}
+
+	private void checkRebalance(BSTNode<T> node) {
+		if (!node.getParent().isEmpty()) {
+			if (Math.abs(calculateBalance((BSTNode<T>) node.getParent())) >= 2) {
+				rebalance((BSTNode<T>) node.getParent());
+			} else {
+				checkRebalance((BSTNode<T>) node.getParent());
+			}
+		}
+	}
+
+	protected int heigth(BSTNode<T> node) {
+		int result = -1;
+		if (!node.isEmpty()) {
+			if (node.isLeaf()) {
+				result = 0;
+			} else {
+				result = 1 + Math.max(height((BSTNode<T>) node.getRight()), height((BSTNode<T>) node.getLeft()));
+			}
+		}
+
+		return result;
 	}
 
 	// AUXILIARY

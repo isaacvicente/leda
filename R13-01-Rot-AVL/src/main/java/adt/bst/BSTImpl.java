@@ -3,7 +3,7 @@ package adt.bst;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BSTImpl<T extends Comparable<T>> implements BST<T> {
+public abstract class BSTImpl<T extends Comparable<T>> implements BST<T> {
 
 	protected BSTNode<T> root;
 
@@ -25,7 +25,7 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 		return height(getRoot());
 	}
 
-	public int height(BSTNode<T> node) {
+	protected int height(BSTNode<T> node) {
 		int result = -1;
 		if (!node.isEmpty()) {
 			if (node.isLeaf()) {
@@ -319,4 +319,5 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 		return result;
 	}
 
+	protected abstract int heigth(BSTNode<T> node);
 }
